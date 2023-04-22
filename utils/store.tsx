@@ -16,12 +16,12 @@ const initialState: initialStateProps = {
 type Action =
   | { type: "SWITCH_MODE" }
   | { type: "CART_ADD_ITEM"; payload: Product }
-  | { type: "CART_REMOVE_ITEM"; payload: Product };
-//   | { type: 'CART_CLEAR' }
-//   | { type: 'USER_SIGNIN'; payload: UserInfo }
-//   | { type: 'USER_SIGNOUT' }
-//   | { type: 'SAVE_SHIPPING_ADDRESS'; payload: ShippingAddress }
-//   | { type: 'SAVE_PAYMENT_METHOD'; payload: string }
+  | { type: "CART_REMOVE_ITEM"; payload: Product }
+  | { type: "CART_CLEAR" }
+  // | { type: 'USER_SIGNIN'; payload: UserInfo }
+  | { type: "USER_SIGNOUT" }
+  // | { type: 'SAVE_SHIPPING_ADDRESS'; payload: ShippingAddress }
+  | { type: "SAVE_PAYMENT_METHOD"; payload: string };
 
 function reducer(state: initialStateProps, action: Action) {
   switch (action.type) {
@@ -40,6 +40,14 @@ function reducer(state: initialStateProps, action: Action) {
         : [...state.cart.cartItems, newItem];
       return { ...state, cart: { ...state.cart, cartItems } };
     }
+
+    case "CART_REMOVE_ITEM": {
+      const cartItems = state.cart.cartItems.filter(
+        (item) => item.slug !== action.payload.slug
+      );
+      return { ...state, cart: { ...state.cart, cartItems } };
+    }
+
     default:
       return state;
   }

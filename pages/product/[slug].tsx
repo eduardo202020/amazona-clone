@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
+import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 
 function ProductScreen() {
   const { query } = useRouter();
@@ -32,7 +33,9 @@ function ProductScreen() {
   return (
     <Layout title={product.name}>
       <div className="py-2">
-        <Link href="/">Back</Link>
+        <Link href="/">
+          <ArrowLeftIcon className="h-5 w-5 hover:-translate-x-2 transition duration-700 hover:font-bold" />
+        </Link>
       </div>
       <div className="grid md:grid-cols-4 md:gap-3">
         <div className="md:col-span-2">
