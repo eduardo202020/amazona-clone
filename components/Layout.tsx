@@ -1,7 +1,7 @@
 import { useStore } from "@/utils/store";
 import Head from "next/head";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 interface LayoutProps {
   title?: string;
@@ -11,6 +11,11 @@ interface LayoutProps {
 export default function Layout({ children, title }: LayoutProps) {
   const { state } = useStore();
   const { cart } = state;
+  const [cartItemsCount, setCartItemsCount] = useState(0);
+
+  useEffect(() => {
+    setCartItemsCount(cart.cartItems.reduce((a, c) => a + c.quantity, 0));
+  }, [cart.cartItems]);
 
   return (
     <>
@@ -30,9 +35,9 @@ export default function Layout({ children, title }: LayoutProps) {
             <div>
               <Link href="/cart" className="p-2 cursor-pointer">
                 Cart
-                {cart.cartItems.length > 0 && (
+                {cartItemsCount > 0 && (
                   <span className="ml-1 rounded-full bg-red-600 py-1 text-xs font-bold text-white px-2">
-                    {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
+                    {cartItemsCount}
                   </span>
                 )}
               </Link>

@@ -1,5 +1,6 @@
 import React, { createContext, useReducer, useContext } from "react";
 import { Product } from "@/app";
+import Cookies from "js-cookie";
 
 type initialStateProps = {
   cart: {
@@ -8,9 +9,11 @@ type initialStateProps = {
 };
 
 const initialState: initialStateProps = {
-  cart: {
-    cartItems: [],
-  },
+  cart: Cookies.get("cart")
+    ? JSON.parse(Cookies.get("cart") || "")
+    : {
+        cartItems: [],
+      },
 };
 
 type Action =
@@ -38,6 +41,8 @@ function reducer(state: initialStateProps, action: Action) {
             item.name === existItem.name ? newItem : item
           )
         : [...state.cart.cartItems, newItem];
+
+      Cookies.set("cart", JSON.stringify({ ...state.cart, cartItems }));
       return { ...state, cart: { ...state.cart, cartItems } };
     }
 
@@ -45,6 +50,9 @@ function reducer(state: initialStateProps, action: Action) {
       const cartItems = state.cart.cartItems.filter(
         (item) => item.slug !== action.payload.slug
       );
+
+      Cookies.set("cart", JSON.stringify({ ...state.cart, cartItems }));
+
       return { ...state, cart: { ...state.cart, cartItems } };
     }
 

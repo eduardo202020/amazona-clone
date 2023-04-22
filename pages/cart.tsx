@@ -6,6 +6,7 @@ import React from "react";
 import { XCircleIcon } from "@heroicons/react/24/outline";
 import { Product } from "@/app";
 import { useRouter } from "next/router";
+import dynamic from "next/dynamic";
 
 const CartScreen = () => {
   const {
@@ -114,4 +115,4 @@ const CartScreen = () => {
   );
 };
 
-export default CartScreen;
+export default dynamic(() => Promise.resolve(CartScreen), { ssr: false });
