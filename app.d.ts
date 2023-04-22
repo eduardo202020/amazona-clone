@@ -11,4 +11,5 @@ export type Product = {
   description: string;
   isFeatured?: boolean;
   banner?: string;
+  quantity: number;
 };
