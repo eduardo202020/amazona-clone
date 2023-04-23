@@ -1,17 +1,64 @@
 import "@/styles/globals.css";
 import { StoreProvider } from "@/utils/store";
-import type { AppProps } from "next/app";
-import { SessionProvider } from "next-auth/react";
+import { SessionProvider, useSession } from "next-auth/react";
+import { useRouter } from "next/router";
+import React, { ReactElement, ReactPortal } from "react";
+import { AppProps } from "next/app";
+
+type Total = AppProps & {
+  auth?: string;
+};
 
 export default function App({
   Component,
   pageProps: { session, ...pageProps },
-}: AppProps) {
+}: Total) {
   return (
     <SessionProvider session={session}>
       <StoreProvider>
+        {/* {Component.auth ? (
+          <Auth>
+            <Component {...pageProps} />{" "}
+          </Auth>
+        ) : (
+          <Component {...pageProps} />
+        )} */}
+
         <Component {...pageProps} />
       </StoreProvider>
     </SessionProvider>
   );
 }
+
+// interface AuthProps {
+//   children: ReactNode;
+// }
+
+type ReactText = string | number;
+type ReactChild = ReactElement | ReactText;
+
+interface ReactNodeArray extends Array<ReactNode> {}
+type ReactFragment = {} | ReactNodeArray;
+type ReactNode =
+  | ReactChild
+  | ReactFragment
+  | ReactPortal
+  | boolean
+  | null
+  | undefined;
+
+const Auth = ({ children }: { children: ReactNode }): ReactNode => {
+  const router = useRouter();
+  const { status } = useSession({
+    required: true,
+    onUnauthenticated() {
+      router.push("/unauthorized?message=login required");
+    },
+  });
+
+  if (status === "loading") {
+    return <div>Loading</div>;
+  }
+
+  return children;
+};
