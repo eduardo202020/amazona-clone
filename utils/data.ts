@@ -1,32 +1,4 @@
 import bcrypt from "bcryptjs";
-// import bcrypt from "bcrypt";
-
-// interface DataProps {
-//   users: User[];
-//   products: Product[];
-// }
-
-// interface User {
-//   name: string;
-//   email: string;
-//   password: string;
-//   isAdmin: boolean;
-// }
-
-// interface Product {
-//   name: string;
-//   slug: string;
-//   category: string;
-//   image: string;
-//   price: number;
-//   brand: string;
-//   rating: number;
-//   numReviews: number;
-//   countInStock: number;
-//   description: string;
-//   isFeatured: boolean;
-//   banner: string;
-// }
 
 const data = {
   users: [

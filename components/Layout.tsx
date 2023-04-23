@@ -1,7 +1,12 @@
 import { useStore } from "@/utils/store";
+import { signOut, useSession } from "next-auth/react";
 import Head from "next/head";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+
+// import 'react-toastify/dist/ReactToastify.css'
+
+import { ToastContainer } from "react-toastify";
 
 interface LayoutProps {
   title?: string;
@@ -12,6 +17,8 @@ export default function Layout({ children, title }: LayoutProps) {
   const { state } = useStore();
   const { cart } = state;
   const [cartItemsCount, setCartItemsCount] = useState(0);
+
+  const { data: session, status } = useSession();
 
   useEffect(() => {
     setCartItemsCount(cart.cartItems.reduce((a, c) => a + c.quantity, 0));
@@ -24,6 +31,8 @@ export default function Layout({ children, title }: LayoutProps) {
         <meta name="description" content="Ecommerce Website" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
+      <ToastContainer position="bottom-center" limit={1} />
 
       <div className="flex min-h-screen flex-col justify-between ">
         <header>
@@ -41,9 +50,16 @@ export default function Layout({ children, title }: LayoutProps) {
                   </span>
                 )}
               </Link>
-              <Link href="/login" className="p-2 cursor-pointer">
-                Login
-              </Link>
+              {status === "loading" ? (
+                "Loading"
+              ) : session?.user ? (
+                session.user.name
+              ) : (
+                <Link href="/login" className="p-2">
+                  Login
+                </Link>
+              )}
+              <button onClick={signOut}>Sign Out</button>
             </div>
           </nav>
           {/* </div> */}

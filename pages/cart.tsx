@@ -21,6 +21,7 @@ const CartScreen = () => {
     dispatch({ type: "CART_REMOVE_ITEM", payload: item });
   };
 
+  // uso del dispatch
   const updateCartHandler = (item: Product, qty: string) => {
     const quantity = Number(qty);
     dispatch({ type: "CART_ADD_ITEM", payload: { ...item, quantity } });

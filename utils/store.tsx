@@ -8,6 +8,8 @@ type initialStateProps = {
   };
 };
 
+
+// estado inicial 
 const initialState: initialStateProps = {
   cart: Cookies.get("cart")
     ? JSON.parse(Cookies.get("cart") || "")
@@ -16,6 +18,8 @@ const initialState: initialStateProps = {
       },
 };
 
+
+// tipado de las acciones y payload
 type Action =
   | { type: "SWITCH_MODE" }
   | { type: "CART_ADD_ITEM"; payload: Product }
@@ -26,6 +30,8 @@ type Action =
   // | { type: 'SAVE_SHIPPING_ADDRESS'; payload: ShippingAddress }
   | { type: "SAVE_PAYMENT_METHOD"; payload: string };
 
+
+// funcion reducer 
 function reducer(state: initialStateProps, action: Action) {
   switch (action.type) {
     case "CART_ADD_ITEM": {
@@ -61,22 +67,30 @@ function reducer(state: initialStateProps, action: Action) {
   }
 }
 
+// tipado del dispatch
 const defaultDispatch: React.Dispatch<Action> = () => initialState;
 
+// tipado del store
 const Store = createContext({
   state: initialState,
   dispatch: defaultDispatch,
 });
 
+
+// 
 function StoreProvider({ children }: { children: React.ReactNode }) {
   const [state, dispatch] = useReducer<
     React.Reducer<initialStateProps, Action>
   >(reducer, initialState);
+
+// constante value a enviar a la app  
   const value = { state, dispatch };
 
+  // provider que envolvera a la app
   return <Store.Provider value={value}>{children}</Store.Provider>;
 }
 
+// creacion y devolucion del custom hook useStore
 const useStore = () => useContext(Store);
 
 export { Store, StoreProvider, useStore };

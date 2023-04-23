@@ -1,7 +1,14 @@
 import Layout from "@/components/Layout";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect } from "react";
+
+import { signIn, useSession } from "next-auth/react";
+
 import { useForm } from "react-hook-form";
+
+import { getError } from "@/utils/error";
+import { toast } from "react-toastify";
+import { useRouter } from "next/router";
 
 type FormData = {
   email: string;
@@ -9,19 +16,52 @@ type FormData = {
 };
 
 const LoginScreen = () => {
+  const { data: session } = useSession();
+  const router = useRouter();
+
+  const { redirect } = router.query;
+
+  console.log({ redirect });
+
+  useEffect(() => {
+    if (session?.user) {
+      router.push(redirect);
+    }
+  }, [router, session, redirect]);
+
   const {
     handleSubmit,
     register,
     formState: { errors },
   } = useForm<FormData>();
 
-  const submitHandler = handleSubmit((data) => console.log(data));
+  const submitHandler = async ({
+    email,
+    password,
+  }: {
+    email: string;
+    password: string;
+  }) => {
+    try {
+      const result = await signIn("credentials", {
+        redirect: false,
+        email,
+        password,
+      });
+      if (result?.error) {
+        toast.error(result.error);
+      }
+    } catch (error) {
+      toast.error(getError(error));
+    }
+  };
+
   return (
     <Layout title="Login">
       <form
         action=""
         className="mx-auto max-w-screen-md"
-        onSubmit={submitHandler}
+        onSubmit={handleSubmit(submitHandler)}
       >
         <h1 className="mb-4 text-xl ">Login</h1>
         <div>
