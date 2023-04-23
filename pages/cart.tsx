@@ -48,7 +48,10 @@ const CartScreen = () => {
               </thead>
               <tbody>
                 {cartItems.map((item) => (
-                  <tr key={item.slug} className="border-b">
+                  <tr
+                    key={item.slug}
+                    className="border-b hover:bg-neutral-300 transition px-5"
+                  >
                     <td>
                       <Link
                         href={`/product/${item.slug}`}

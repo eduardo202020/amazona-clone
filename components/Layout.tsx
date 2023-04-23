@@ -41,7 +41,7 @@ export default function Layout({ children, title }: LayoutProps) {
             <Link href="/" className="text-lg font-bold">
               Amazona
             </Link>
-            <div>
+            <div className="flex items-center">
               <Link href="/cart" className="p-2 cursor-pointer">
                 Cart
                 {cartItemsCount > 0 && (
@@ -53,13 +53,17 @@ export default function Layout({ children, title }: LayoutProps) {
               {status === "loading" ? (
                 "Loading"
               ) : session?.user ? (
-                session.user.name
+                <p className=" px-2 font-semibold text-lg cursor-pointer hover:bottom-2 ">
+                  {session.user.name}
+                </p>
               ) : (
                 <Link href="/login" className="p-2">
                   Login
                 </Link>
               )}
-              <button onClick={signOut}>Sign Out</button>
+              {!!session?.user.email && (
+                <button onClick={() => signOut()}>Sign Out</button>
+              )}
             </div>
           </nav>
           {/* </div> */}

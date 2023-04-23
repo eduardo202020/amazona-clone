@@ -19,15 +19,14 @@ const LoginScreen = () => {
   const { data: session } = useSession();
   const router = useRouter();
 
-  const { redirect } = router.query;
-
-  console.log({ redirect });
+  let { redirect } = router.query;
+  let redirect2 = redirect as string;
 
   useEffect(() => {
     if (session?.user) {
-      router.push(redirect);
+      router.push(redirect2);
     }
-  }, [router, session, redirect]);
+  }, [router, session, redirect2]);
 
   const {
     handleSubmit,
