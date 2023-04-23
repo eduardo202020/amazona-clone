@@ -11,5 +11,8 @@ export type Product = {
   description: string;
   isFeatured?: boolean;
   banner?: string;
+};
+
+export type ProductCart = Product & {
   quantity: number;
 };

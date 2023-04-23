@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { XCircleIcon } from "@heroicons/react/24/outline";
-import { Product } from "@/app";
+import { ProductCart } from "@/app";
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
 
@@ -17,12 +17,12 @@ const CartScreen = () => {
 
   const router = useRouter();
 
-  const removeItemHandler = (item: Product) => {
+  const removeItemHandler = (item: ProductCart) => {
     dispatch({ type: "CART_REMOVE_ITEM", payload: item });
   };
 
   // uso del dispatch
-  const updateCartHandler = (item: Product, qty: string) => {
+  const updateCartHandler = (item: ProductCart, qty: string) => {
     const quantity = Number(qty);
     dispatch({ type: "CART_ADD_ITEM", payload: { ...item, quantity } });
   };

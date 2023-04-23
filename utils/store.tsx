@@ -1,15 +1,14 @@
 import React, { createContext, useReducer, useContext } from "react";
-import { Product } from "@/app";
+import { ProductCart } from "@/app";
 import Cookies from "js-cookie";
 
 type initialStateProps = {
   cart: {
-    cartItems: Product[];
+    cartItems: ProductCart[];
   };
 };
 
-
-// estado inicial 
+// estado inicial
 const initialState: initialStateProps = {
   cart: Cookies.get("cart")
     ? JSON.parse(Cookies.get("cart") || "")
@@ -18,20 +17,18 @@ const initialState: initialStateProps = {
       },
 };
 
-
 // tipado de las acciones y payload
 type Action =
   | { type: "SWITCH_MODE" }
-  | { type: "CART_ADD_ITEM"; payload: Product }
-  | { type: "CART_REMOVE_ITEM"; payload: Product }
+  | { type: "CART_ADD_ITEM"; payload: ProductCart }
+  | { type: "CART_REMOVE_ITEM"; payload: ProductCart }
   | { type: "CART_CLEAR" }
   // | { type: 'USER_SIGNIN'; payload: UserInfo }
   | { type: "USER_SIGNOUT" }
   // | { type: 'SAVE_SHIPPING_ADDRESS'; payload: ShippingAddress }
   | { type: "SAVE_PAYMENT_METHOD"; payload: string };
 
-
-// funcion reducer 
+// funcion reducer
 function reducer(state: initialStateProps, action: Action) {
   switch (action.type) {
     case "CART_ADD_ITEM": {
@@ -76,14 +73,13 @@ const Store = createContext({
   dispatch: defaultDispatch,
 });
 
-
-// 
+//
 function StoreProvider({ children }: { children: React.ReactNode }) {
   const [state, dispatch] = useReducer<
     React.Reducer<initialStateProps, Action>
   >(reducer, initialState);
 
-// constante value a enviar a la app  
+  // constante value a enviar a la app
   const value = { state, dispatch };
 
   // provider que envolvera a la app
