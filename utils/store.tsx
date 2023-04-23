@@ -1,35 +1,31 @@
-import React, { createContext, useReducer, useContext } from "react";
-import { ProductCart } from "@/app";
+import React, { createContext, useContext } from "react";
+import type { CartItem, ShippingAddress, Cart } from "@/app";
 import Cookies from "js-cookie";
 
-type initialStateProps = {
-  cart: {
-    cartItems: ProductCart[];
-  };
+type AppState = {
+  cart: Cart;
 };
 
 // estado inicial
-const initialState: initialStateProps = {
+const initialState: AppState = {
   cart: Cookies.get("cart")
     ? JSON.parse(Cookies.get("cart") || "")
-    : {
-        cartItems: [],
-      },
+    : { cartItems: [], shippingAddress: {} },
 };
 
 // tipado de las acciones y payload
 type Action =
   | { type: "SWITCH_MODE" }
-  | { type: "CART_ADD_ITEM"; payload: ProductCart }
-  | { type: "CART_REMOVE_ITEM"; payload: ProductCart }
+  | { type: "CART_ADD_ITEM"; payload: CartItem }
+  | { type: "CART_REMOVE_ITEM"; payload: CartItem }
   | { type: "CART_CLEAR" }
   // | { type: 'USER_SIGNIN'; payload: UserInfo }
   | { type: "USER_SIGNOUT" }
-  // | { type: 'SAVE_SHIPPING_ADDRESS'; payload: ShippingAddress }
+  | { type: "SAVE_SHIPPING_ADDRESS"; payload: ShippingAddress }
   | { type: "SAVE_PAYMENT_METHOD"; payload: string };
 
 // funcion reducer
-function reducer(state: initialStateProps, action: Action) {
+function reducer(state: AppState, action: Action): AppState {
   switch (action.type) {
     case "CART_ADD_ITEM": {
       // pregunta si el producto que llega ya esta en el array, si ya
@@ -45,7 +41,7 @@ function reducer(state: initialStateProps, action: Action) {
           )
         : [...state.cart.cartItems, newItem];
 
-      Cookies.set("cart", JSON.stringify({ ...state.cart, cartItems }));
+      Cookies.set("cart", JSON.stringify({ ...state, cartItems }));
       return { ...state, cart: { ...state.cart, cartItems } };
     }
 
@@ -63,9 +59,18 @@ function reducer(state: initialStateProps, action: Action) {
       return {
         ...state,
         cart: {
+          ...state.cart,
           cartItems: [],
-          shippingAddress: { location: {} },
-          paymentMethod: "",
+        },
+      };
+    }
+
+    case "SAVE_SHIPPING_ADDRESS": {
+      return {
+        ...state,
+        cart: {
+          ...state.cart,
+          shippingAddress: action.payload,
         },
       };
     }
@@ -86,9 +91,10 @@ const Store = createContext({
 
 //
 function StoreProvider({ children }: { children: React.ReactNode }) {
-  const [state, dispatch] = useReducer<
-    React.Reducer<initialStateProps, Action>
-  >(reducer, initialState);
+  const [state, dispatch] = React.useReducer<React.Reducer<AppState, Action>>(
+    reducer,
+    initialState
+  );
 
   // constante value a enviar a la app
   const value = { state, dispatch };

@@ -1,18 +1,27 @@
-export type Product = {
-  name: string;
-  slug: string;
-  category: string;
-  image: string;
-  price: number;
-  brand: string;
-  rating: number;
-  numReviews: number;
-  countInStock: number;
-  description: string;
-  isFeatured?: boolean;
-  banner?: string;
+export type Cart = {
+  cartItems: CartItem[];
+  shippingAddress: ShippingAddress;
+  paymentMethod: string;
+  itemsPrice: number;
+  shippingPrice: number;
+  taxPrice: number;
+  totalPrice: number;
 };
 
-export type ProductCart = Product & {
+export type ShippingAddress = {
+  fullName: string;
+  address: string;
+  city: string;
+  postalCode: string;
+  country: string;
+};
+
+export type CartItem = {
+  image: string | undefined;
+  slug: string;
   quantity: number;
+  countInStock: number;
+  price: number;
+  _id: string;
+  name: string;
 };
