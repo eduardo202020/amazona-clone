@@ -2,11 +2,14 @@ import { useStore } from "@/utils/store";
 import { signOut, useSession } from "next-auth/react";
 import Head from "next/head";
 import Link from "next/link";
+import { Menu } from "@headlessui/react";
+
 import React, { useEffect, useState } from "react";
 
 // import 'react-toastify/dist/ReactToastify.css'
 
 import { ToastContainer } from "react-toastify";
+import Cookies from "js-cookie";
 
 interface LayoutProps {
   title?: string;
@@ -14,7 +17,7 @@ interface LayoutProps {
 }
 
 export default function Layout({ children, title }: LayoutProps) {
-  const { state } = useStore();
+  const { state, dispatch } = useStore();
   const { cart } = state;
   const [cartItemsCount, setCartItemsCount] = useState(0);
 
@@ -23,6 +26,13 @@ export default function Layout({ children, title }: LayoutProps) {
   useEffect(() => {
     setCartItemsCount(cart.cartItems.reduce((a, c) => a + c.quantity, 0));
   }, [cart.cartItems]);
+
+  const logoutClickHandler = () => {
+    // user logout and remove cookies cart
+    Cookies.remove("cart");
+    dispatch({ type: "CART_CLEAR" });
+    signOut({ callbackUrl: "/login" });
+  };
 
   return (
     <>
@@ -53,20 +63,38 @@ export default function Layout({ children, title }: LayoutProps) {
               {status === "loading" ? (
                 "Loading"
               ) : session?.user ? (
-                <p className=" px-2 font-semibold text-lg cursor-pointer hover:bottom-2 ">
-                  {session.user.name}
-                </p>
+                <Menu as="div" className="relative inline-block">
+                  <Menu.Button className="text-blue-600">
+                    {session.user.name}
+                  </Menu.Button>
+                  <Menu.Items className="absolute right-0 w-56 origin-top-right shadow-lg translate-y-3 translate-x-4 rounded-lg">
+                    <Menu.Item>
+                      <Link href="/profile" className="dropdown-link">
+                        Profile
+                      </Link>
+                    </Menu.Item>
+                    <Menu.Item>
+                      <Link href="/order-history" className="dropdown-link">
+                        Order History
+                      </Link>
+                    </Menu.Item>
+                    <Menu.Item>
+                      <button
+                        onClick={logoutClickHandler}
+                        className="dropdown-link w-full"
+                      >
+                        Logout
+                      </button>
+                    </Menu.Item>
+                  </Menu.Items>
+                </Menu>
               ) : (
                 <Link href="/login" className="p-2">
                   Login
                 </Link>
               )}
-              {!!session?.user.email && (
-                <button onClick={() => signOut()}>Sign Out</button>
-              )}
             </div>
           </nav>
-          {/* </div> */}
         </header>
         <main className="container m-auto mt-4 px-4">{children}</main>
         <footer className="flex h-10 justify-center items-center shadow-inner">
