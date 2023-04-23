@@ -59,6 +59,17 @@ function reducer(state: initialStateProps, action: Action) {
       return { ...state, cart: { ...state.cart, cartItems } };
     }
 
+    case "CART_CLEAR": {
+      return {
+        ...state,
+        cart: {
+          cartItems: [],
+          shippingAddress: { location: {} },
+          paymentMethod: "",
+        },
+      };
+    }
+
     default:
       return state;
   }

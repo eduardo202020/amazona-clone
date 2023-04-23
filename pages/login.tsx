@@ -18,9 +18,9 @@ type FormData = {
 const LoginScreen = () => {
   const { data: session } = useSession();
   const router = useRouter();
-
   let { redirect } = router.query;
-  let redirect2 = redirect as string;
+
+  let redirect2 = (redirect as string) || "/shipping";
 
   useEffect(() => {
     if (session?.user) {
@@ -106,8 +106,13 @@ const LoginScreen = () => {
         <div className="mb-4">
           <button className="primary-button">Login</button>
         </div>
-        <div className="mb-4"> Don&apos;t have an account? &nbsp;</div>
-        <Link href="register">Register</Link>
+        <div className="mb-4">
+          {" "}
+          Don&apos;t have an account? &nbsp;
+          <Link href="register" className="text-blue-600 hover:text-blue-800">
+            Register
+          </Link>
+        </div>
       </form>
     </Layout>
   );
