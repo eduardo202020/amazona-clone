@@ -70,7 +70,19 @@ function reducer(state: AppState, action: Action): AppState {
         ...state,
         cart: {
           ...state.cart,
-          shippingAddress: action.payload,
+          shippingAddress: {
+            ...state.cart.shippingAddress,
+            ...action.payload,
+          },
+        },
+      };
+    }
+    case "SAVE_PAYMENT_METHOD": {
+      return {
+        ...state,
+        cart: {
+          ...state.cart,
+          paymentMethod: action.payload,
         },
       };
     }
