@@ -10,7 +10,7 @@ type AppState = {
 const initialState: AppState = {
   cart: Cookies.get("cart")
     ? JSON.parse(Cookies.get("cart") || "")
-    : { cartItems: [], shippingAddress: {} },
+    : { cartItems: [], shippingAddress: {}, paymentMethod: "" },
 };
 
 // tipado de las acciones y payload
