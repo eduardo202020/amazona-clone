@@ -1,7 +1,9 @@
 import mongoose, { Schema } from "mongoose";
+// import { Types } from "mongoose";
 
 // Document interface
-interface ProductProps {
+export interface ProductProps {
+  _id: string;
   name: string;
   slug: string;
   category: string;
@@ -14,6 +16,8 @@ interface ProductProps {
   description: string;
   isFeatured: boolean;
   banner: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 // Schema
@@ -29,8 +33,8 @@ const productShema = new Schema<ProductProps>(
     numReviews: { type: Number, required: true, default: 0 },
     countInStock: { type: Number, required: true, default: 0 },
     description: { type: String, required: true },
-    // isFeatured: { type: Boolean, required: true },
-    // banner: { type: String, required: true },
+    isFeatured: { type: Boolean, default: false },
+    banner: String,
   },
   {
     timestamps: true,

@@ -1,12 +1,16 @@
 import Link from "next/link";
 import React from "react";
-import { Product } from "@/app";
+import { ProductProps } from "@/models/Product";
+
+// eslint-disable-next-line no-unused-vars
+type functionProps = (product: ProductProps) => Promise<void>;
 
 type ProductItemProps = {
-  product: Product;
+  product: ProductProps;
+  addToCardHandler: functionProps;
 };
 
-const ProductItem = ({ product }: ProductItemProps) => {
+const ProductItem = ({ product, addToCardHandler }: ProductItemProps) => {
   return (
     <div className=" card ">
       <div className="overflow-hidden">
@@ -25,7 +29,11 @@ const ProductItem = ({ product }: ProductItemProps) => {
         </Link>
         <p className="mb-2 ">{product.brand}</p>
         <p>${product.price}</p>
-        <button className="primary-button" type="button">
+        <button
+          className="primary-button"
+          type="button"
+          onClick={() => addToCardHandler(product)}
+        >
           Add to card
         </button>
       </div>

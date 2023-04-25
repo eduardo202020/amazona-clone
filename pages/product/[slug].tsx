@@ -1,33 +1,43 @@
 import Layout from "@/components/Layout";
-import data from "@/utils/data";
 import { useStore } from "@/utils/store";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import React from "react";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
+import Product, { ProductProps } from "@/models/Product";
+import db from "@/utils/db";
+import { GetServerSideProps } from "next";
+import axios from "axios";
+import { toast } from "react-hot-toast";
 
-function ProductScreen() {
-  const { query } = useRouter();
-  const { slug } = query;
-
+function ProductScreen({ product }: { product: ProductProps }) {
   const { dispatch, state } = useStore();
 
-  const product = data.products.find((product) => product.slug === slug);
   if (!product) {
-    return <div>Product not Found</div>;
+    return (
+      <Layout title="Product Not Found">
+        <div>Product not Found</div>
+      </Layout>
+    );
   }
 
-  const addToCardHandler = () => {
+  const addToCardHandler = async () => {
     const existItem = state.cart.cartItems.find((x) => x.slug === product.slug);
     const quantity = existItem ? existItem.quantity + 1 : 1;
 
+    // obtenemos el producto desde la api para obtener su stock
+    const { data } = await axios.get<ProductProps>(
+      `/api/products/${product._id}`
+    );
+
     // comprueba si hay productos en stock
-    if (product.countInStock < quantity) {
-      alert("Sorry, Product is out of stock");
+    if (data.countInStock < quantity) {
+      toast.error("Sorry, Product is out of stock");
+
       return;
     }
     dispatch({ type: "CART_ADD_ITEM", payload: { ...product, quantity } });
+    toast.success("Product added to the cart");
   };
 
   return (
@@ -82,3 +92,22 @@ function ProductScreen() {
   );
 }
 export default ProductScreen;
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { params } = context;
+  const { slug } = params as Record<string, string>;
+
+  await db.connect();
+  const product: ProductProps | null = await Product.findOne({
+    slug,
+  }).lean();
+
+  // nuevo objeto que usa la funcion convert para serializar(convertir a string sus propiedades(_id,dates))
+  const myProduct: ProductProps = product ? db.convertDocToObj(product) : null;
+  await db.disconnect();
+  return {
+    props: {
+      product: myProduct,
+    },
+  };
+};
