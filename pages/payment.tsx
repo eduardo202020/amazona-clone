@@ -4,7 +4,7 @@ import { useStore } from "@/utils/store";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 
 const Payment = () => {
   const router = useRouter();
@@ -45,21 +45,19 @@ const Payment = () => {
       <form className="mx-auto max-w-screen-md" onSubmit={submitHandler}>
         <h1 className="mb-4 text-xl"> Payment Method</h1>
         {methotTypes.map((payment) => (
-          <>
-            <div key={payment} className="mb-4">
-              <input
-                type="radio"
-                name="paymentMethod"
-                className="p-2 outline-none focus:ring-0"
-                id={payment}
-                checked={selectedPaymentMethod === payment}
-                onChange={() => setSelectedPaymentMethod(payment)}
-              />
-              <label htmlFor={payment} className="p-2">
-                {payment}
-              </label>
-            </div>
-          </>
+          <div key={payment} className="mb-4">
+            <input
+              type="radio"
+              name="paymentMethod"
+              className="p-2 outline-none focus:ring-0"
+              id={payment}
+              checked={selectedPaymentMethod === payment}
+              onChange={() => setSelectedPaymentMethod(payment)}
+            />
+            <label htmlFor={payment} className="p-2">
+              {payment}
+            </label>
+          </div>
         ))}
         <div className="mb-4 flex justify-between">
           <button
