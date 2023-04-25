@@ -41,7 +41,7 @@ function reducer(state: AppState, action: Action): AppState {
           )
         : [...state.cart.cartItems, newItem];
 
-      Cookies.set("cart", JSON.stringify({ ...state, cartItems }));
+      Cookies.set("cart", JSON.stringify({ ...state.cart, cartItems }));
       return { ...state, cart: { ...state.cart, cartItems } };
     }
 
