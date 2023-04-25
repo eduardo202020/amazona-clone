@@ -4,9 +4,12 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { XCircleIcon } from "@heroicons/react/24/outline";
-import { ProductCart } from "@/app";
+import { CartItem } from "@/app";
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
+import axios from "axios";
+import { ProductProps } from "@/models/Product";
+import { toast } from "react-hot-toast";
 
 const CartScreen = () => {
   const {
@@ -17,14 +20,20 @@ const CartScreen = () => {
 
   const router = useRouter();
 
-  const removeItemHandler = (item: ProductCart) => {
+  const removeItemHandler = (item: CartItem) => {
     dispatch({ type: "CART_REMOVE_ITEM", payload: item });
   };
 
   // uso del dispatch
-  const updateCartHandler = (item: ProductCart, qty: string) => {
+  const updateCartHandler = async (item: CartItem, qty: string) => {
     const quantity = Number(qty);
+    const { data } = await axios.get<ProductProps>(`/api/products/${item._id}`);
+    if (data.countInStock < quantity) {
+      toast.error("Sorry. Product is out of stock");
+      return;
+    }
     dispatch({ type: "CART_ADD_ITEM", payload: { ...item, quantity } });
+    toast.success("Product updated in the cart");
   };
 
   return (
@@ -58,7 +67,7 @@ const CartScreen = () => {
                         className=" flex items-center"
                       >
                         <Image
-                          src={item.image}
+                          src={item.image || ""}
                           alt={item.name}
                           width={50}
                           height={50}

@@ -1,4 +1,6 @@
 import "@/styles/globals.css";
+import { Toaster } from "react-hot-toast";
+
 import { StoreProvider } from "@/utils/store";
 import { SessionProvider, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
@@ -15,6 +17,8 @@ export default function App({
 }: Total) {
   return (
     <SessionProvider session={session}>
+      <Toaster />
+
       <StoreProvider>
         {/* {Component.auth ? (
           <Auth>
@@ -47,6 +51,7 @@ type ReactNode =
   | null
   | undefined;
 
+// eslint-disable-next-line no-unused-vars
 const Auth = ({ children }: { children: ReactNode }): ReactNode => {
   const router = useRouter();
   const { status } = useSession({
