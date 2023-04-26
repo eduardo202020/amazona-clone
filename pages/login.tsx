@@ -108,9 +108,7 @@ const LoginScreen = () => {
         </div>
         <div className="mb-4">
           Don&apos;t have an account? &nbsp;
-          <Link href="register" className="text-blue-600 hover:text-blue-800">
-            Register
-          </Link>
+          <Link href={`/register?redirect=${redirect || "/"}`}>Register</Link>
         </div>
       </form>
     </Layout>
