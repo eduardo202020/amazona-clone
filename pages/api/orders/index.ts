@@ -2,8 +2,9 @@ import Order from "../../../models/Order";
 import db from "../../../utils/db";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
+import { NextApiRequest, NextApiResponse } from "next";
 
-const handler = async (req, res) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const user = await getServerSession(req, res, authOptions);
 
   if (!user) {
