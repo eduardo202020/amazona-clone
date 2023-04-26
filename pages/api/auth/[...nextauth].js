@@ -4,10 +4,14 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import User from "../../../models/User";
 import db from "../../../utils/db";
 
-export default NextAuth({
+export const authOptions = {
   session: {
     strategy: "jwt",
   },
+  jwt: {
+    secret: process.env.NEXTAUTH_JWT_SECRET,
+  },
+  secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     async jwt({ token, user }) {
       if (user?._id) token._id = user._id;
@@ -41,4 +45,6 @@ export default NextAuth({
       },
     }),
   ],
-});
+};
+
+export default NextAuth(authOptions);
