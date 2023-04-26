@@ -25,6 +25,8 @@ function OrderHistoryScreen() {
     error: "",
   });
 
+  console.log({ orders });
+
   const { data } = useSession();
   const router = useRouter();
 
@@ -68,22 +70,29 @@ function OrderHistoryScreen() {
             </thead>
             <tbody>
               {orders.map((order) => (
-                <tr key={order._id} className="border-b">
+                <tr
+                  key={order._id}
+                  className="border-b hover:bg-neutral-400 transition duration-150"
+                >
                   <td className=" p-5 ">{order._id.substring(20, 24)}</td>
                   <td className=" p-5 ">{order.createdAt.substring(0, 10)}</td>
                   <td className=" p-5 ">${order.totalPrice}</td>
                   <td className=" p-5 ">
-                    {order.isPaid
-                      ? `${order.paidAt?.substring(0, 10)}`
-                      : "not paid"}
+                    {order.isPaid ? "paid" : "not paid"}
+                  </td>
+                  <td
+                    className={`p-5 font-semibold  ${
+                      order.isDelivered ? "text-green-500" : "text-red-500"
+                    }`}
+                  >
+                    {order.isDelivered ? "delivered" : "not delivered"}
                   </td>
                   <td className=" p-5 ">
-                    {order.isDelivered
-                      ? `${order.deliveredAt?.substring(0, 10)}`
-                      : "not delivered"}
-                  </td>
-                  <td className=" p-5 ">
-                    <Link href={`/order/${order._id}`} passHref>
+                    <Link
+                      href={`/order/${order._id}`}
+                      passHref
+                      className="text-blue-600 hover:text-blue-800 "
+                    >
                       Details
                     </Link>
                   </td>
