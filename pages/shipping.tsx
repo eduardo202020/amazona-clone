@@ -76,7 +76,7 @@ const ShippingScreen = () => {
 
   return (
     <Layout title="Shipping Address">
-      <CheckoutWizard activeStep={2} />
+      <CheckoutWizard activeStep={1} />
       <form
         className="mx-auto max-w-screen-md"
         onSubmit={handleSubmit(submitHandler)}

@@ -10,8 +10,9 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
+import dynamic from "next/dynamic";
 
-export default function PlaceOrderScreen() {
+const PlaceOrderScreen = () => {
   const { data: user } = useSession();
 
   const { state, dispatch } = useStore();
@@ -206,4 +207,6 @@ export default function PlaceOrderScreen() {
       )}
     </Layout>
   );
-}
+};
+
+export default dynamic(() => Promise.resolve(PlaceOrderScreen), { ssr: false });
