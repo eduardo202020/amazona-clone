@@ -7,7 +7,7 @@ import { signIn, useSession } from "next-auth/react";
 import { useForm } from "react-hook-form";
 
 import { getError } from "@/utils/error";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 import { useRouter } from "next/router";
 
 type FormData = {
