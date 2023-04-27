@@ -5,6 +5,7 @@ import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { getServerSession } from "next-auth";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+  // @ts-ignore
   const session = await getServerSession(req, res, authOptions);
 
   if (!session) {

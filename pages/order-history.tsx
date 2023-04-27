@@ -5,7 +5,7 @@ import Layout from "../components/Layout";
 import { getError } from "../utils/error";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-
+// @ts-ignore
 function reducer(state, action) {
   switch (action.type) {
     case "FETCH_REQUEST":
@@ -69,7 +69,7 @@ function OrderHistoryScreen() {
               </tr>
             </thead>
             <tbody>
-              {orders.map((order) => (
+              {orders.map((order: any) => (
                 <tr
                   key={order._id}
                   className="border-b hover:bg-neutral-400 transition duration-150"

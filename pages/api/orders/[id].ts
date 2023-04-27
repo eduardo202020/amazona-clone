@@ -5,6 +5,7 @@ import db from "@/utils/db";
 import Order from "@/models/Order";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+  // @ts-ignore
   const session = await getServerSession(req, res, authOptions);
 
   if (!session) {

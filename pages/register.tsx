@@ -8,8 +8,6 @@ import { toast } from "react-hot-toast";
 import { useRouter } from "next/router";
 import axios from "axios";
 
-// inter
-
 export default function LoginScreen() {
   const { data: session } = useSession();
 
@@ -18,6 +16,7 @@ export default function LoginScreen() {
 
   useEffect(() => {
     if (session?.user) {
+      // @ts-ignore
       router.push(redirect || "/");
     }
   }, [router, session, redirect]);
@@ -61,6 +60,7 @@ export default function LoginScreen() {
     <Layout title="Create Account">
       <form
         className="mx-auto max-w-screen-md"
+        // @ts-ignore
         onSubmit={handleSubmit(submitHandler)}
       >
         <h1 className="mb-4 text-xl">Create Account</h1>
@@ -76,6 +76,7 @@ export default function LoginScreen() {
             })}
           />
           {errors.name && (
+            // @ts-ignore
             <div className="text-red-500">{errors.name.message}</div>
           )}
         </div>
@@ -95,6 +96,7 @@ export default function LoginScreen() {
             id="email"
           ></input>
           {errors.email && (
+            // @ts-ignore
             <div className="text-red-500">{errors.email.message}</div>
           )}
         </div>
@@ -111,6 +113,7 @@ export default function LoginScreen() {
             autoFocus
           ></input>
           {errors.password && (
+            // @ts-ignore
             <div className="text-red-500 ">{errors.password.message}</div>
           )}
         </div>
@@ -131,6 +134,7 @@ export default function LoginScreen() {
           />
           {errors.confirmPassword && (
             <div className="text-red-500 ">
+              {/*// @ts-ignore*/}
               {errors.confirmPassword.message}
             </div>
           )}
