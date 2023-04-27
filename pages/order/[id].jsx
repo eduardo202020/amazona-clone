@@ -48,8 +48,8 @@ function OrderScreen() {
   // order/:id
   //   const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
 
-  const { query } = useRouter();
-  const orderId = query.id;
+  const router = useRouter();
+  const orderId = router.query.id;
 
   const [
     {
@@ -71,6 +71,9 @@ function OrderScreen() {
     const fetchOrder = async () => {
       try {
         dispatch({ type: "FETCH_REQUEST" });
+        if (!orderId) {
+          return;
+        }
         const { data } = await axios.get(`/api/orders/${orderId}`);
         dispatch({ type: "FETCH_SUCCESS", payload: data });
       } catch (err) {
@@ -78,10 +81,10 @@ function OrderScreen() {
       }
     };
     if (
-      !order._id ||
+      !order?._id ||
       successPay ||
       successDeliver ||
-      (order._id && order._id !== orderId)
+      (order?._id && order?._id !== orderId)
     ) {
       fetchOrder();
       //   if (successPay) {
@@ -105,7 +108,7 @@ function OrderScreen() {
       //   loadPaypalScript();
     }
     //   }, [order, orderId, paypalDispatch, successDeliver, successPay]);
-  }, [order._id, orderId, successDeliver, successPay]);
+  }, [order?._id, orderId, successDeliver, successPay]);
   const {
     shippingAddress,
     paymentMethod,
@@ -120,45 +123,45 @@ function OrderScreen() {
     deliveredAt,
   } = order;
 
-  function createOrder(data, actions) {
-    return actions.order
-      .create({
-        purchase_units: [
-          {
-            amount: { value: totalPrice },
-          },
-        ],
-      })
-      .then((orderID) => {
-        return orderID;
-      });
-  }
+  // function createOrder(data, actions) {
+  //   return actions.order
+  //     .create({
+  //       purchase_units: [
+  //         {
+  //           amount: { value: totalPrice },
+  //         },
+  //       ],
+  //     })
+  //     .then((orderID) => {
+  //       return orderID;
+  //     });
+  // }
 
-  function onApprove(data, actions) {
-    return actions.order.capture().then(async function (details) {
-      try {
-        dispatch({ type: "PAY_REQUEST" });
-        const { data } = await axios.put(
-          `/api/orders/${order._id}/pay`,
-          details
-        );
-        dispatch({ type: "PAY_SUCCESS", payload: data });
-        toast.success("Order is paid successgully");
-      } catch (err) {
-        dispatch({ type: "PAY_FAIL", payload: getError(err) });
-        toast.error(getError(err));
-      }
-    });
-  }
-  function onError(err) {
-    toast.error(getError(err));
-  }
+  // function onApprove(data, actions) {
+  //   return actions.order.capture().then(async function (details) {
+  //     try {
+  //       dispatch({ type: "PAY_REQUEST" });
+  //       const { data } = await axios.put(
+  //         `/api/orders/${order._id}/pay`,
+  //         details
+  //       );
+  //       dispatch({ type: "PAY_SUCCESS", payload: data });
+  //       toast.success("Order is paid successgully");
+  //     } catch (err) {
+  //       dispatch({ type: "PAY_FAIL", payload: getError(err) });
+  //       toast.error(getError(err));
+  //     }
+  //   });
+  // }
+  // function onError(err) {
+  //   toast.error(getError(err));
+  // }
 
   async function deliverOrderHandler() {
     try {
       dispatch({ type: "DELIVER_REQUEST" });
       const { data } = await axios.put(
-        `/api/admin/orders/${order._id}/deliver`,
+        `/api/admin/orders/${order?._id}/deliver`,
         {}
       );
       dispatch({ type: "DELIVER_SUCCESS", payload: data });
@@ -169,6 +172,7 @@ function OrderScreen() {
     }
   }
 
+  console.log({ orderItems });
   return (
     <Layout title={`Order ${orderId}`}>
       <h1 className="mb-4 text-xl">{`Order ${orderId}`}</h1>
@@ -216,11 +220,14 @@ function OrderScreen() {
                 </thead>
                 <tbody>
                   {orderItems.map((item) => (
-                    <tr key={item._id} className="border-b">
-                      <td>
+                    <tr
+                      key={item._id}
+                      className="border-b hover:bg-neutral-400 transition duration-300"
+                    >
+                      <td className="">
                         <Link
                           href={`/product/${item.slug}`}
-                          className="flex items-center"
+                          className="flex items-center "
                         >
                           <Image
                             src={item.image}
@@ -230,6 +237,8 @@ function OrderScreen() {
                             style={{
                               maxWidth: "100%",
                               height: "auto",
+                              paddingRight: "10px",
+                              marginLeft: "10px",
                             }}
                           ></Image>
                           {item.name}

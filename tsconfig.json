@@ -24,7 +24,8 @@
     "**/*.tsx",
     "utils/db.ts",
     "pages/api/auth/[...nextauth].ts",
-    "pages/api/orders/index.ts"
+    "pages/api/orders/index.ts",
+    "pages/order/[id].jsx"
   ],
   "exclude": ["node_modules"]
 }
