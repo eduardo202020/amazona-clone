@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useRouter } from "next/router";
 import { useContext } from "react";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 import Layout from "../components/Layout";
 import { Store } from "@/utils/store";
 import { XCircleIcon } from "@heroicons/react/24/outline";
@@ -95,17 +95,22 @@ export default function Search(props) {
   };
 
   const { state, dispatch } = useContext(Store);
-  const addToCartHandler = async (product) => {
-    const existItem = state.cart.cartItems.find((x) => x._id === product._id);
+
+  const addToCardHandler = async (product) => {
+    const existItem = state.cart.cartItems.find((x) => x.slug === product.slug);
     const quantity = existItem ? existItem.quantity + 1 : 1;
     const { data } = await axios.get(`/api/products/${product._id}`);
+
+    // comprueba si hay productos en stock
     if (data.countInStock < quantity) {
       toast.error("Sorry. Product is out of stock");
       return;
     }
     dispatch({ type: "CART_ADD_ITEM", payload: { ...product, quantity } });
-    router.push("/cart");
+
+    toast.success("Product added to the cart");
   };
+
   return (
     <Layout title="search">
       <div className="grid md:grid-cols-4 md:gap-5">
@@ -200,7 +205,7 @@ export default function Search(props) {
                 <ProductItem
                   key={product._id}
                   product={product}
-                  addToCartHandler={addToCartHandler}
+                  addToCardHandler={addToCardHandler}
                 />
               ))}
             </div>
