@@ -61,8 +61,6 @@ function AdminDashboardScreen() {
   const { data: user } = useSession();
   const router = useRouter();
 
-  console.log({ pathname: router.pathname });
-
   useEffect(() => {
     // if (!user) {
     //   return;
