@@ -101,12 +101,14 @@ export default function AdminProdcutsScreen() {
                       <td className=" p-5 ">
                         <Link
                           href={`/admin/product/${product._id}`}
-                          className="text-blue-800 hover:text-blue-500 hover:underline font-semibold pr-2"
+                          className="default-button"
                         >
                           Edit
                         </Link>
                         &nbsp;
-                        <button>Delete</button>
+                        <button className="default-button" type="button">
+                          Delete
+                        </button>
                       </td>
                     </tr>
                   ))}

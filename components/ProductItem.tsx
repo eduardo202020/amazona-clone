@@ -18,7 +18,7 @@ const ProductItem = ({ product, addToCardHandler }: ProductItemProps) => {
           <img
             src={product.image}
             alt={product.name}
-            className="hover:scale-150 transition duration-500"
+            className="hover:scale-150 transition duration-500 rounded shadow object-cover h-64 w-full"
           />
         </Link>
       </div>
