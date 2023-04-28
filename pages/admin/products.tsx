@@ -49,6 +49,9 @@ export default function AdminProdcutsScreen() {
   const { data: user } = useSession();
   const router = useRouter();
 
+  console.log({ pathname: router.pathname });
+  console.log(router.pathname.includes("products"));
+
   const createHandler = async () => {
     if (!window.confirm("Are you sure?")) {
       return;

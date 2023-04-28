@@ -5,6 +5,8 @@ import Layout from "../../components/Layout";
 import { getError } from "../../utils/error";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 //@ts-ignore
 function reducer(state, action) {
@@ -20,6 +22,8 @@ function reducer(state, action) {
   }
 }
 
+let lista = [1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7];
+
 export default function AdminOrderScreen() {
   const [{ loading, error, orders }, dispatch] = useReducer(reducer, {
     loading: true,
@@ -29,6 +33,8 @@ export default function AdminOrderScreen() {
 
   const { data: user } = useSession();
   const router = useRouter();
+
+  console.log({ pathname: router.pathname });
 
   useEffect(() => {
     // if (!user) {
@@ -52,6 +58,10 @@ export default function AdminOrderScreen() {
     fetchData();
   }, []);
 
+  if (error) {
+    <div className="alert-error">{error}</div>;
+  }
+
   return (
     <Layout title="Admin Dashboard">
       <div className="grid md:grid-cols-4 md:gap-5">
@@ -69,35 +79,55 @@ export default function AdminOrderScreen() {
               <Link href="/admin/products">Products</Link>
             </li>
             <li>
-              <Link href="/admin/users">Users</Link>
+              <Link href="/admin/users">Users </Link>
             </li>
           </ul>
         </div>
         <div className="overflow-x-auto md:col-span-3">
           <h1 className="mb-4 text-xl">Admin Orders</h1>
-
-          {loading ? (
-            <div>Loading...</div>
-          ) : error ? (
-            <div className="alert-error">{error}</div>
-          ) : (
-            <div className="overflow-x-auto">
-              <table className="min-w-full">
-                <thead className="border-b">
-                  <tr>
-                    <th className="px-5 text-left">ID</th>
-                    <th className="p-5 text-left">USER</th>
-                    <th className="p-5 text-left">DATE</th>
-                    <th className="p-5 text-left">TOTAL</th>
-                    <th className="p-5 text-left">PAID</th>
-                    <th className="p-5 text-left">DELIVERED</th>
-                    <th className="p-5 text-left">ACTION</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {
-                    //@ts-ignore
-                    orders.map((order) => (
+          <div className="overflow-x-auto">
+            <table className="min-w-full">
+              <thead className="border-b">
+                <tr>
+                  <th className="px-5 text-left">ID</th>
+                  <th className="p-5 text-left">USER</th>
+                  <th className="p-5 text-left">DATE</th>
+                  <th className="p-5 text-left">TOTAL</th>
+                  <th className="p-5 text-left">PAID</th>
+                  <th className="p-5 text-left">DELIVERED</th>
+                  <th className="p-5 text-left">ACTION</th>
+                </tr>
+              </thead>
+              <tbody>
+                {loading
+                  ? lista.map((index) => (
+                      <>
+                        <tr key={index}>
+                          <td>
+                            <Skeleton count={1} height={50} />
+                          </td>
+                          <td>
+                            <Skeleton count={1} height={50} />
+                          </td>
+                          <td>
+                            <Skeleton count={1} height={50} />
+                          </td>
+                          <td>
+                            <Skeleton count={1} height={50} />
+                          </td>
+                          <td>
+                            <Skeleton count={1} height={50} />
+                          </td>
+                          <td>
+                            <Skeleton count={1} height={50} />
+                          </td>
+                          <td>
+                            <Skeleton count={1} height={50} />
+                          </td>
+                        </tr>
+                      </>
+                    ))
+                  : orders.map((order: any) => (
                       <tr
                         key={order._id}
                         className="border-b hover:bg-neutral-200 transition-all duration-200"
@@ -126,12 +156,10 @@ export default function AdminOrderScreen() {
                           </Link>
                         </td>
                       </tr>
-                    ))
-                  }
-                </tbody>
-              </table>
-            </div>
-          )}
+                    ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </Layout>
