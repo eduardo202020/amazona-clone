@@ -6,6 +6,9 @@ import { Menu } from "@headlessui/react";
 
 import React, { useEffect, useState } from "react";
 
+import { useRouter } from "next/router";
+import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+
 // import 'react-toastify/dist/ReactToastify.css'
 
 import { ToastContainer } from "react-toastify";
@@ -34,6 +37,14 @@ export default function Layout({ children, title }: LayoutProps) {
     signOut({ callbackUrl: "/login" });
   };
 
+  const [query, setQuery] = useState("");
+
+  const router = useRouter();
+  const submitHandler = (e: any) => {
+    e.preventDefault();
+    router.push(`/search?query=${query}`);
+  };
+
   return (
     <>
       <Head>
@@ -51,6 +62,24 @@ export default function Layout({ children, title }: LayoutProps) {
             <Link href="/" className="text-lg font-bold">
               Amazona
             </Link>
+            <form
+              onSubmit={submitHandler}
+              className="mx-auto  hidden w-full justify-center md:flex"
+            >
+              <input
+                onChange={(e) => setQuery(e.target.value)}
+                type="text"
+                className="rounded-tr-none rounded-br-none p-1 text-sm   focus:ring-0"
+                placeholder="Search products"
+              />
+              <button
+                className="rounded rounded-tl-none rounded-bl-none bg-amber-300 p-1 text-sm dark:text-black"
+                type="submit"
+                id="button-addon2"
+              >
+                <MagnifyingGlassIcon className="h-5 w-5"></MagnifyingGlassIcon>
+              </button>
+            </form>
             <div className="flex items-center">
               <Link href="/cart" className="p-2 cursor-pointer">
                 Cart
