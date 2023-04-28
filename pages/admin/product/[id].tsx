@@ -319,7 +319,7 @@ export default function AdminProductEditScreen() {
                 <button disabled={loadingUpdate} className="primary-button">
                   {loadingUpdate ? "Loading" : "Update"}
                 </button>
-                <div className="bg-neutral-400 rounded-md px-5 py-2 hover:bg-neutral-200 transition duration-300 cursor-pointer">
+                <div className="default-button">
                   <Link href={`/admin/products`}>Back</Link>
                 </div>
               </div>
