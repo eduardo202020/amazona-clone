@@ -1,6 +1,7 @@
 import Link from "next/link";
 import React from "react";
 import { ProductProps } from "@/models/Product";
+import Rating from "./Rating";
 
 // eslint-disable-next-line no-unused-vars
 type functionProps = (product: ProductProps) => Promise<void>;
@@ -27,6 +28,7 @@ const ProductItem = ({ product, addToCardHandler }: ProductItemProps) => {
         <Link href={`/product/${product.slug}`}>
           <h2 className=" text-lg">{product.name}</h2>
         </Link>
+        <Rating rating={product.rating} />
         <p className="mb-2 ">{product.brand}</p>
         <p>${product.price}</p>
         <button
