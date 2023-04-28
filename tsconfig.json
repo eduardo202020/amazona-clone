@@ -25,7 +25,8 @@
     "utils/db.ts",
     "pages/api/auth/[...nextauth].ts",
     "pages/api/orders/index.ts",
-    "pages/order/[id].jsx"
+    "pages/order/[id].jsx",
+    "pages/search.jsx"
   ],
   "exclude": ["node_modules"]
 }

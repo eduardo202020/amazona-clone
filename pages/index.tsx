@@ -72,7 +72,6 @@ export const getServerSideProps: GetServerSideProps = async () => {
   const products: ProductProps[] = await Product.find().lean();
 
   const featuredProducts = await Product.find({ isFeatured: true }).lean();
-  console.log({ featuredProducts });
 
   // nuevo objeto que usa la funcion convert para serializar(convertir a string sus propiedades(_id,dates)s)
   const myProducts: ProductProps[] = products.map(db.convertDocToObj);

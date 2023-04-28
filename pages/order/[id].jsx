@@ -172,7 +172,6 @@ function OrderScreen() {
     }
   }
 
-  console.log({ orderItems });
   return (
     <Layout title={`Order ${orderId}`}>
       <h1 className="mb-4 text-xl">{`Order ${orderId}`}</h1>

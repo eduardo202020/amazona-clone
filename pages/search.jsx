@@ -75,22 +75,22 @@ export default function Search(props) {
       query: query,
     });
   };
-  const categoryHandler = (e: any) => {
+  const categoryHandler = (e) => {
     filterSearch({ category: e.target.value });
   };
   const pageHandler = (page) => {
     filterSearch({ page });
   };
-  const brandHandler = (e: any) => {
+  const brandHandler = (e) => {
     filterSearch({ brand: e.target.value });
   };
-  const sortHandler = (e: any) => {
+  const sortHandler = (e) => {
     filterSearch({ sort: e.target.value });
   };
-  const priceHandler = (e: any) => {
+  const priceHandler = (e) => {
     filterSearch({ price: e.target.value });
   };
-  const ratingHandler = (e: any) => {
+  const ratingHandler = (e) => {
     filterSearch({ rating: e.target.value });
   };
 

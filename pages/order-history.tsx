@@ -25,8 +25,6 @@ function OrderHistoryScreen() {
     error: "",
   });
 
-  console.log({ orders });
-
   const { data } = useSession();
   const router = useRouter();
 
