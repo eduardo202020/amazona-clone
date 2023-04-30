@@ -4,6 +4,7 @@ import Cookies from "js-cookie";
 
 type AppState = {
   cart: Cart;
+  darkMode: boolean;
 };
 
 // estado inicial
@@ -11,10 +12,13 @@ const initialState: AppState = {
   cart: Cookies.get("cart")
     ? JSON.parse(Cookies.get("cart") || "")
     : { cartItems: [], shippingAddress: {}, paymentMethod: "" },
+  darkMode: Cookies.get("darkMode") === "ON",
 };
 
 // tipado de las acciones y payload
 type Action =
+  | { type: "DARK_MODE_ON" }
+  | { type: "DARK_MODE_OFF" }
   | { type: "SWITCH_MODE" }
   | { type: "CART_ADD_ITEM"; payload: CartItem }
   | { type: "CART_REMOVE_ITEM"; payload: CartItem }
@@ -27,6 +31,10 @@ type Action =
 // funcion reducer
 function reducer(state: AppState, action: Action): AppState {
   switch (action.type) {
+    case "DARK_MODE_ON":
+      return { ...state, darkMode: true };
+    case "DARK_MODE_OFF":
+      return { ...state, darkMode: false };
     case "CART_ADD_ITEM": {
       // pregunta si el producto que llega ya esta en el array, si ya
       // esta lo cambia y si no lo agrega
