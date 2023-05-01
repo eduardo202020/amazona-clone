@@ -7,18 +7,18 @@ import React, { useEffect, useState } from "react";
 
 import { useRouter } from "next/router";
 
-import { ToastContainer } from "react-toastify";
 import Cookies from "js-cookie";
 
 import { Menu } from "@headlessui/react";
 import {
   EllipsisVerticalIcon as DotsVerticalIcon,
-  XCircleIcon as XCircleIcon,
+  XCircleIcon,
   Bars3BottomLeftIcon as MenuIcon,
-  SunIcon as SunIcon,
-  MoonIcon as MoonIcon,
+  SunIcon,
+  MoonIcon,
   MagnifyingGlassIcon as SearchIcon,
 } from "@heroicons/react/24/outline";
+
 import axios from "axios";
 import { getError } from "@/utils/error";
 import { toast } from "react-hot-toast";
@@ -215,7 +215,6 @@ export default function Layout({ children, title }: LayoutProps) {
         <meta name="description" content="Ecommerce Website" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <ToastContainer position="bottom-center" limit={1} />
 
       <div className="flex min-h-screen flex-col justify-between bg-white text-black transition-all  dark:bg-black dark:text-white">
         <div>
@@ -228,7 +227,7 @@ export default function Layout({ children, title }: LayoutProps) {
                 className="cursor-pointer px-4  "
                 onClick={() => setShowSidebar(!showSidebar)}
               >
-                <MenuIcon className="h-5 w-5 text-blue-500"></MenuIcon>
+                <MenuIcon className="h-5 w-5 text-blue-500" />
               </div>
               <Link
                 href="/"
