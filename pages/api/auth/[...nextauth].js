@@ -16,11 +16,13 @@ export const authOptions = {
     async jwt({ token, user }) {
       if (user?._id) token._id = user._id;
       if (user?.isAdmin) token.isAdmin = user.isAdmin;
+      if (user?.isSeller) token.isSeller = user.isSeller;
       return token;
     },
     async session({ session, token }) {
       if (token?._id) session.user._id = token._id;
       if (token?.isAdmin) session.user.isAdmin = token.isAdmin;
+      if (token?.isSeller) session.user.isSeller = token.isSeller;
       return session;
     },
   },
@@ -39,6 +41,7 @@ export const authOptions = {
             email: user.email,
             image: "f",
             isAdmin: user.isAdmin,
+            isSeller: user.isSeller,
           };
         }
         throw new Error("Invalid email or password");

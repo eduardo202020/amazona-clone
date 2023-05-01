@@ -35,6 +35,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     email,
     password: bcryptjs.hashSync(password),
     isAdmin: false,
+    isSeller: false,
   });
 
   const user = await newUser.save();
@@ -45,6 +46,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     name: user.name,
     email: user.email,
     isAdmin: user.isAdmin,
+    isSeller: user.isSeller,
   });
 }
 

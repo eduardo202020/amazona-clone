@@ -1,11 +1,12 @@
 import mongoose, { Schema } from "mongoose";
 
 // Document interface
-interface UserProps {
+export interface UserProps {
   name: string;
   email: string;
   password: string;
   isAdmin: boolean;
+  isSeller: boolean;
 }
 
 // Schema
@@ -15,6 +16,7 @@ const userSchema = new Schema<UserProps>(
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     isAdmin: { type: Boolean, required: true, default: false },
+    isSeller: { type: Boolean, required: true, default: false },
   },
   {
     timestamps: true,
