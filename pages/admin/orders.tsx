@@ -98,32 +98,30 @@ export default function AdminOrderScreen() {
               </thead>
               <tbody>
                 {loading
-                  ? lista.map((index) => (
-                      <>
-                        <tr key={index}>
-                          <td>
-                            <Skeleton count={1} height={50} />
-                          </td>
-                          <td>
-                            <Skeleton count={1} height={50} />
-                          </td>
-                          <td>
-                            <Skeleton count={1} height={50} />
-                          </td>
-                          <td>
-                            <Skeleton count={1} height={50} />
-                          </td>
-                          <td>
-                            <Skeleton count={1} height={50} />
-                          </td>
-                          <td>
-                            <Skeleton count={1} height={50} />
-                          </td>
-                          <td>
-                            <Skeleton count={1} height={50} />
-                          </td>
-                        </tr>
-                      </>
+                  ? lista.map((index, x) => (
+                      <tr key={`${index}-${x}`}>
+                        <td>
+                          <Skeleton count={1} height={50} />
+                        </td>
+                        <td>
+                          <Skeleton count={1} height={50} />
+                        </td>
+                        <td>
+                          <Skeleton count={1} height={50} />
+                        </td>
+                        <td>
+                          <Skeleton count={1} height={50} />
+                        </td>
+                        <td>
+                          <Skeleton count={1} height={50} />
+                        </td>
+                        <td>
+                          <Skeleton count={1} height={50} />
+                        </td>
+                        <td>
+                          <Skeleton count={1} height={50} />
+                        </td>
+                      </tr>
                     ))
                   : orders.map((order: any) => (
                       <tr
