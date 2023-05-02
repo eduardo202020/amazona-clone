@@ -98,24 +98,29 @@ function AdminUsersScreen() {
             <div className="alert-error">{error}</div>
           ) : (
             <div className="overflow-x-auto">
-              <table className="min-w-full">
-                <thead className="border-b">
+              <table className="min-w-full shadow-lg">
+                <thead className="border-b shadow-sm">
                   <tr>
                     <th className="px-5 text-left">ID</th>
                     <th className="p-5 text-left">NAME</th>
                     <th className="p-5 text-left">EMAIL</th>
                     <th className="p-5 text-left">ADMIN</th>
+                    <th className="p-5 text-left">SELLER</th>
                     <th className="p-5 text-left">ACTIONS</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody className="shadow-lg">
                   {users.map((user: any) => (
-                    <tr key={user._id} className="border-b">
+                    <tr
+                      key={user._id}
+                      className="border-b hover:bg-neutral-400 transition-all duration-400"
+                    >
                       <td className=" p-5 ">{user._id.substring(20, 24)}</td>
                       <td className=" p-5 ">{user.name}</td>
                       <td className=" p-5 ">{user.email}</td>
                       <td className=" p-5 ">{user.isAdmin ? "YES" : "NO"}</td>
-                      <td className=" p-5 ">
+                      <td className=" p-5 ">{user.isSeller ? "YES" : "NO"}</td>
+                      <td className=" p-5 flex flex-wrap justify-center items-center gap-2">
                         <Link
                           href={`/admin/user/${user._id}`}
                           className="default-button"
