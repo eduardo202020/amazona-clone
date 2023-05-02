@@ -7,7 +7,6 @@ import React, { useEffect, useState } from "react";
 
 import { useRouter } from "next/router";
 
-import { ToastContainer } from "react-toastify";
 import Cookies from "js-cookie";
 
 import { Menu } from "@headlessui/react";
@@ -98,6 +97,12 @@ export default function Layout({ children, title }: LayoutProps) {
     }
   };
 
+  const handleDashboard = () => {
+    if (window.innerWidth < 768) {
+      router.push("/admin/dashboard");
+    }
+  };
+
   const [query, setQuery] = useState("");
 
   const router = useRouter();
@@ -142,10 +147,10 @@ export default function Layout({ children, title }: LayoutProps) {
           "Loading"
         ) : session?.user ? (
           <Menu as="div" className="relative inline-block z-10">
-            <Menu.Button className="text-blue-600">
+            <Menu.Button className="text-blue-600" onClick={handleDashboard}>
               {session.user.name}
             </Menu.Button>
-            <Menu.Items className="absolute right-0 w-56 origin-top-right   bg-white shadow-lg   dark:bg-black dark:shadow-gray-700">
+            <Menu.Items className="translate-y-3  absolute right-0 w-56 origin-top-right   bg-white shadow-lg   dark:bg-black dark:shadow-gray-700">
               <Menu.Item>
                 <Link className="dropdown-link" href="/profile">
                   Profile
@@ -217,7 +222,6 @@ export default function Layout({ children, title }: LayoutProps) {
         <meta name="description" content="Ecommerce Website" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <ToastContainer position="bottom-center" limit={1} />
 
       <div className="flex min-h-screen flex-col justify-between bg-white text-black transition-all  dark:bg-black dark:text-white">
         <div>
