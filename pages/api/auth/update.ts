@@ -1,5 +1,5 @@
 import bcryptjs from "bcryptjs";
-import User from "../../../models/User";
+import User, { UserProps } from "../../../models/User";
 import db from "../../../utils/db";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
@@ -18,7 +18,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 
   const { user } = session;
-  const { name, email, password } = req.body;
+  const { name, email, password, sellerName, sellerLogo, sellerDescription } =
+    req.body;
 
   // validamos los elementos del body
   if (
@@ -34,18 +35,31 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 
   await db.connect();
-  const toUpdateUser = await User.findById(user._id);
-  toUpdateUser.name = name;
-  toUpdateUser.email = email;
 
-  if (password) {
-    toUpdateUser.password = bcryptjs.hashSync(password);
+  const toUpdateUser: UserProps | null = await User.findById(user._id);
+  if (toUpdateUser !== null) {
+    if (toUpdateUser?.isSeller) {
+      toUpdateUser.seller.description = sellerDescription;
+      toUpdateUser.seller.logo = sellerLogo;
+      toUpdateUser.seller.name = sellerName;
+    }
+
+    toUpdateUser.name = name;
+    toUpdateUser.email = email;
+    if (password) {
+      toUpdateUser.password = bcryptjs.hashSync(password);
+    }
+
+    //@ts-ignore
+    await toUpdateUser.save();
+    await db.disconnect();
+    res.send({
+      message: "User updated",
+    });
   }
 
-  await toUpdateUser.save();
-  await db.disconnect();
   res.send({
-    message: "User updated",
+    message: "User not found",
   });
 }
 

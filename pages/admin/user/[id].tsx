@@ -174,13 +174,13 @@ function AdminUserEdit() {
                   <div className="text-red-500">{errors.isSeller.message}</div>
                 )}
               </div>
-              <div className="mb-4">
+              <div className="mb-4 flex justify-around">
                 <button disabled={loadingUpdate} className="primary-button">
                   {loadingUpdate ? "Loading" : "Update"}
                 </button>
-              </div>
-              <div className="mb-4">
-                <Link href={`/admin/users`}>Back</Link>
+                <div className="default-button">
+                  <Link href={`/admin/users`}>Back</Link>
+                </div>
               </div>
             </form>
           )}

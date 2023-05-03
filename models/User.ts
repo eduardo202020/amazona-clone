@@ -1,4 +1,4 @@
-import mongoose, { Schema } from "mongoose";
+import { Schema, models, model } from "mongoose";
 
 // Document interface
 export interface UserProps {
@@ -7,6 +7,13 @@ export interface UserProps {
   password: string;
   isAdmin: boolean;
   isSeller: boolean;
+  seller: {
+    name: String;
+    logo: String;
+    description: String;
+    rating: { type: Number; default: 0; required: true };
+    numReviews: { type: Number; default: 0; required: true };
+  };
 }
 
 // Schema
@@ -17,6 +24,13 @@ const userSchema = new Schema<UserProps>(
     password: { type: String, required: true },
     isAdmin: { type: Boolean, required: true, default: false },
     isSeller: { type: Boolean, required: true, default: false },
+    seller: {
+      name: String,
+      logo: String,
+      description: String,
+      rating: { type: Number, default: 0, required: true },
+      numReviews: { type: Number, default: 0, required: true },
+    },
   },
   {
     timestamps: true,
@@ -24,6 +38,6 @@ const userSchema = new Schema<UserProps>(
 );
 
 // si ya esta creado lo enviamos, si no lo creamos
-const User = mongoose.models.User || mongoose.model("User", userSchema);
+const User = models.User || model("User", userSchema);
 
 export default User;

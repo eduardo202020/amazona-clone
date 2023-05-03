@@ -186,6 +186,30 @@ export default function Layout({ children, title }: LayoutProps) {
           </Link>
         )}
 
+        {status === "loading" ? (
+          "Loading"
+        ) : session?.user.isSeller ? (
+          <Menu as="div" className="relative inline-block z-10 ml-2">
+            <Menu.Button className="text-blue-600" onClick={handleDashboard}>
+              Seller
+            </Menu.Button>
+            <Menu.Items className="translate-y-3  absolute right-0 w-56 origin-top-right   bg-white shadow-lg   dark:bg-black dark:shadow-gray-700">
+              <Menu.Item>
+                <Link className="dropdown-link" href="/seller/products">
+                  Products
+                </Link>
+              </Menu.Item>
+              <Menu.Item>
+                <Link className="dropdown-link" href="/seller/orders">
+                  Order History
+                </Link>
+              </Menu.Item>
+            </Menu.Items>
+          </Menu>
+        ) : (
+          <></>
+        )}
+
         <div className="mx-auto p-2">
           <Link href="/cart" className="p-2 cursor-pointer">
             Cart
