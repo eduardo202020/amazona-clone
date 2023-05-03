@@ -73,6 +73,9 @@ function AdminUserEdit() {
         dispatch({ type: "FETCH_FAIL", payload: getError(err) });
       }
     };
+    if (userId === undefined) {
+      return;
+    }
     fetchData();
   }, [userId, setValue]);
 
@@ -148,11 +151,11 @@ function AdminUserEdit() {
                   <div className="text-red-500">{errors.name.message}</div>
                 )}
               </div>
-              <div className="mb-4">
+              <div className="mb-4 flex flex-col">
                 <label htmlFor="isAdmin">Is Admin</label>
                 <input
                   type="checkbox"
-                  className="w-full"
+                  className="w-5 m-3  ring-offset-0 ring-0"
                   id="isAdmin"
                   {...register("isAdmin")}
                 />
@@ -161,11 +164,11 @@ function AdminUserEdit() {
                   <div className="text-red-500">{errors.isAdmin.message}</div>
                 )}
               </div>
-              <div className="mb-4">
+              <div className="mb-4 flex flex-col">
                 <label htmlFor="isSeller">Is seller</label>
                 <input
                   type="checkbox"
-                  className="w-full"
+                  className="w-5 m-3  ring-offset-0 ring-0"
                   id="isSeller"
                   {...register("isSeller")}
                 />
