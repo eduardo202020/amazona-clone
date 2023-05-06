@@ -195,13 +195,18 @@ export default function Layout({ children, title }: LayoutProps) {
             </Menu.Button>
             <Menu.Items className="translate-y-3  absolute right-0 w-56 origin-top-right   bg-white shadow-lg   dark:bg-black dark:shadow-gray-700">
               <Menu.Item>
+                <Link className="dropdown-link" href="/seller/dashboard">
+                  Dashboard
+                </Link>
+              </Menu.Item>
+              <Menu.Item>
                 <Link className="dropdown-link" href="/seller/products">
                   Products
                 </Link>
               </Menu.Item>
               <Menu.Item>
                 <Link className="dropdown-link" href="/seller/orders">
-                  Order History
+                  Orders
                 </Link>
               </Menu.Item>
             </Menu.Items>
