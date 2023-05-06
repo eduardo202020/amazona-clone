@@ -8,26 +8,32 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   //@ts-ignore
   const session = await getServerSession(req, res, authOptions);
 
-  // verficamos que haya usuario y que sea admin
-  if (!session || !session.user.isAdmin) {
-    return res.status(401).send("admin signin required");
+  if (req.method === "GET") {
+    return getHandler(req, res, req.query.userId as string);
   }
 
-  // verificamos el metodo
-  if (req.method === "GET") {
-    return getHandler(req, res);
-  } else if (req.method === "POST") {
-    return postHandler(req, res);
-  } else {
-    return res.status(400).send({ message: "Method not allowed" });
+  if (session?.user.isAdmin || session?.user.isSeller) {
+    // verificamos el metodo
+    if (req.method === "POST") {
+      return postHandler(req, res, session.user._id);
+    } else {
+      return res.status(400).send({ message: "Method not allowed" });
+    }
   }
+
+  return res.status(401).send("admin/seller signin required");
 };
 
-const postHandler = async (req: NextApiRequest, res: NextApiResponse) => {
+const postHandler = async (
+  req: NextApiRequest,
+  res: NextApiResponse,
+  id: string
+) => {
   await db.connect();
-  const newProduct = new Product({
+  const newProduct = await Product.create({
     name: "sample name",
     slug: "sample-name-" + Math.random(),
+    seller: id,
     image: "/images/shirt1.jpg",
     price: 0,
     category: "sample category",
@@ -40,12 +46,27 @@ const postHandler = async (req: NextApiRequest, res: NextApiResponse) => {
 
   const product = await newProduct.save();
   await db.disconnect();
+
   res.send({ message: "Product created successfully", product });
 };
 
-const getHandler = async (req: NextApiRequest, res: NextApiResponse) => {
+const getHandler = async (
+  req: NextApiRequest,
+  res: NextApiResponse,
+  id: string
+) => {
   await db.connect();
-  const products = await Product.find({});
+  let products;
+
+  // si viene el id como parametro, agregar al filtro de busqueda
+  if (id) {
+    products = await Product.find({ seller: id });
+    await db.disconnect();
+    return res.send(products);
+  }
+
+  // si no hay id, devolvemos todos los productos
+  products = await Product.find();
   await db.disconnect();
   res.send(products);
 };
