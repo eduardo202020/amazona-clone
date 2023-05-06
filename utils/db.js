@@ -35,8 +35,19 @@ function convertDocToObj(doc) {
   doc._id = doc._id.toString();
   doc.createdAt = doc.createdAt.toString();
   doc.updatedAt = doc.updatedAt.toString();
+  doc.seller = doc.seller.toString();
   return doc;
 }
 
-const db = { connect, disconnect, convertDocToObj };
+function convertDocToObj2(doc) {
+  doc._id = doc._id.toString();
+  doc.createdAt = doc.createdAt.toString();
+  doc.updatedAt = doc.updatedAt.toString();
+  if (doc.seller) {
+    doc.seller._id = doc.seller._id.toString();
+  }
+  return doc;
+}
+
+const db = { connect, disconnect, convertDocToObj, convertDocToObj2 };
 export default db;
