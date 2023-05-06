@@ -68,14 +68,17 @@ export default function AdminProdcutsScreen() {
   };
 
   useEffect(() => {
-    if (!user?.user.email && !user?.user.isSeller) {
+    if (!user?.user.isAdmin && !user?.user.isSeller) {
       router.push("/");
     }
-  }, [router, user?.user]);
+  }, [router, user?.user.isAdmin, user?.user.isSeller]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        if (!user?.user.isAdmin && !user?.user.isSeller) {
+          return;
+        }
         dispatch({ type: "FETCH_REQUEST" });
         const { data } = await axios.get(
           `/api/admin/products?userId=${user?.user._id}`
@@ -92,7 +95,7 @@ export default function AdminProdcutsScreen() {
     } else {
       fetchData();
     }
-  }, [successDelete, user?.user._id]);
+  }, [successDelete, user?.user._id, user?.user.isAdmin, user?.user.isSeller]);
 
   const deleteHandler = async (productId: string) => {
     if (!window.confirm("Are you sure?")) {
@@ -167,7 +170,6 @@ export default function AdminProdcutsScreen() {
                             router.push(`/product/${product.slug}`)
                           }
                           className="cursor-pointer hover:text-blue-500 hover:scale-125 duration-300"
-                          // color="red"
                         />
                       </td>
                       <td className=" p-5 ">{product.name}</td>
