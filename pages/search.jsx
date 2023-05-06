@@ -9,7 +9,7 @@ import ProductItem from "../components/ProductItem";
 import Product from "../models/Product";
 import db from "../utils/db";
 
-const PAGE_SIZE = 2;
+const PAGE_SIZE = 6;
 
 const prices = [
   {
@@ -113,7 +113,7 @@ export default function Search(props) {
 
   return (
     <Layout title="search">
-      <div className="grid md:grid-cols-4 md:gap-5">
+      <div className="grid md:grid-cols-4 md:gap-5 dark:text-black">
         <div>
           <div className="my-3">
             <h2>Categories</h2>
@@ -170,7 +170,7 @@ export default function Search(props) {
         </div>
         <div className="md:col-span-3">
           <div className="mb-2 flex items-center justify-between border-b-2 pb-2">
-            <div className="flex items-center">
+            <div className="flex items-center dark:text-white ">
               {products.length === 0 ? "No" : countProducts} Results
               {query !== "all" && query !== "" && " : " + query}
               {category !== "all" && " : " + category}
@@ -200,7 +200,7 @@ export default function Search(props) {
             </div>
           </div>
           <div>
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-3  ">
+            <div className="grid grid-cols-1  min-[450px]:grid-cols-2 gap-2 md:grid-cols-3  ">
               {products.map((product) => (
                 <ProductItem
                   key={product._id}

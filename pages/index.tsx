@@ -54,7 +54,7 @@ export default function Home({
         ))}
       </Carousel>
       <h2 className="h2 my-4">Latest Products</h2>
-      <div className=" grid grid-col-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
+      <div className=" grid grid-col-1 gap-4 min-[450px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {products.map((product: ProductProps) => (
           <ProductItem
             addToCardHandler={addToCardHandler}

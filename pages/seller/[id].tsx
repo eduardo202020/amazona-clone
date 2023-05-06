@@ -101,9 +101,9 @@ const Seller = () => {
       {error ? (
         <div className="alert-error">{error}</div>
       ) : (
-        <div className="grid  md:grid-cols-4 md:gap-5">
+        <div className="grid sm:grid-cols-2 sm:gap-2 md:grid-cols-4 md:gap-5">
           <div>
-            <div className="card p-5 ">
+            <div className="card p-5 max-w-sm mx-auto">
               <img
                 className="mx-auto rounded-md shadow-lg mb-2"
                 //@ts-ignore
@@ -134,7 +134,7 @@ const Seller = () => {
             {loading ? (
               <div>loading...</div>
             ) : (
-              <div className=" grid grid-col-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
+              <div className=" grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-4">
                 {products.map((product: ProductProps) => (
                   <ProductItem
                     addToCardHandler={addToCardHandler}

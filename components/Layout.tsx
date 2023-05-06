@@ -126,13 +126,13 @@ export default function Layout({ children, title }: LayoutProps) {
       <>
         <form
           onSubmit={submitHandler}
-          className="mx-auto mr-3 mt-1 flex w-full justify-center md:hidden"
+          className="mx-auto mr-3 mt-1 flex w-full justify-center md:hidden  text-red-700"
         >
           <input
             onChange={(e) => setQuery(e.target.value)}
             type="search"
-            className="rounded-tr-none rounded-br-none p-1 text-sm"
-            placeholder="Search products"
+            className="rounded-tr-none rounded-br-none p-1 text-sm text-red-500 "
+            placeholder="Search products "
           />
           <button
             className="rounded rounded-tl-none rounded-bl-none bg-amber-300 p-1 text-sm dark:text-black"
@@ -279,7 +279,7 @@ export default function Layout({ children, title }: LayoutProps) {
               <input
                 onChange={(e) => setQuery(e.target.value)}
                 type="search"
-                className="rounded-tr-none rounded-br-none p-1 text-sm   focus:ring-0"
+                className="rounded-tr-none rounded-br-none p-1 text-sm   focus:ring-0 dark:text-black"
                 placeholder="Search products"
               />
               <button
