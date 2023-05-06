@@ -8,15 +8,17 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   //@ts-ignore
   const session = await getServerSession(req, res, authOptions);
 
-  if (!session || !session.user.isAdmin) {
-    return res.status(401).send("admin signin required");
-  }
-
   if (req.method === "GET") {
     return getHandler(req, res);
   } else if (req.method === "PUT") {
+    if (!session || !session.user.isAdmin) {
+      return res.status(401).send("admin signin required");
+    }
     return putHandler(req, res);
   } else if (req.method === "DELETE") {
+    if (!session || !session.user.isAdmin) {
+      return res.status(401).send("admin signin required");
+    }
     return deleteHandler(req, res);
   } else {
     return res.status(400).send({ message: "Method not allowed" });
