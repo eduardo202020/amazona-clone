@@ -50,7 +50,7 @@ const Seller = () => {
   const { state, dispatch: dispatch2 } = useStore();
   const { cart } = state;
 
-  const [{ loading, error, loadingUpdate }, dispatch] = useReducer(reducer, {
+  const [{ loading, error }, dispatch] = useReducer(reducer, {
     loading: true,
     error: "",
   });
