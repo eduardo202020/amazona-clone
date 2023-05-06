@@ -51,6 +51,8 @@ const PlaceOrderScreen = () => {
     try {
       setLoading(true);
       const { data } = await axios.post("/api/orders", {
+        //@ts-ignore
+        seller: cartItems[0].seller,
         orderItems: cartItems,
         shippingAddress,
         paymentMethod,
@@ -59,6 +61,7 @@ const PlaceOrderScreen = () => {
         taxPrice,
         totalPrice,
       });
+
       setLoading(false);
       dispatch({ type: "CART_CLEAR" });
       Cookies.set(
