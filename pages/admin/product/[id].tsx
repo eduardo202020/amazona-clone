@@ -43,6 +43,7 @@ function reducer(state, action) {
 interface FormData {
   name: string;
   slug: string;
+  seller: string;
   price: number;
   category: string;
   image: string;
@@ -63,10 +64,10 @@ export default function AdminProductEditScreen() {
   const router = useRouter();
 
   useEffect(() => {
-    if (!user?.user.email && !user?.user.isAdmin) {
+    if (!user?.user.email && (!user?.user.isAdmin || !user.user.isSeller)) {
       router.push("/");
     }
-  }, [router, user?.user.email, user?.user.isAdmin]);
+  }, [router, user?.user.email, user?.user.isAdmin, user?.user.isSeller]);
 
   const {
     register,
@@ -80,9 +81,11 @@ export default function AdminProductEditScreen() {
       try {
         dispatch({ type: "FETCH_REQUEST" });
         const { data } = await axios.get(`/api/admin/products/${productId}`);
+
         dispatch({ type: "FETCH_SUCCESS" });
         setValue("name", data.name);
         setValue("slug", data.slug);
+        setValue("seller", data.seller);
         setValue("price", data.price);
         setValue("image", data.image);
         setValue("category", data.category);
@@ -124,6 +127,7 @@ export default function AdminProductEditScreen() {
   };
 
   const submitHandler = async ({
+    seller,
     name,
     slug,
     price,
@@ -136,6 +140,7 @@ export default function AdminProductEditScreen() {
     try {
       dispatch({ type: "UPDATE_REQUEST" });
       await axios.put(`/api/admin/products/${productId}`, {
+        seller,
         name,
         slug,
         price,
@@ -281,6 +286,20 @@ export default function AdminProductEditScreen() {
                 />
                 {errors.brand && (
                   <div className="text-red-500">{errors.brand.message}</div>
+                )}
+              </div>
+              <div className="mb-4 hidden">
+                <label htmlFor="brand">seller</label>
+                <input
+                  type="text"
+                  className="w-full"
+                  id="seller"
+                  {...register("seller", {
+                    required: "Please enter brand",
+                  })}
+                />
+                {errors.seller && (
+                  <div className="text-red-500">{errors.seller.message}</div>
                 )}
               </div>
               <div className="mb-4">

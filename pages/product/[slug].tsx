@@ -27,6 +27,7 @@ function ProductScreen({ product }: { product: ProductProps }) {
   const [loading, setLoading] = useState(false);
 
   const { data: session } = useSession();
+  console.log({ productInPage: product });
 
   const fetchReviews = useCallback(async () => {
     try {
@@ -234,6 +235,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const product: ProductProps | null = await Product.findOne({
     slug,
   }).lean();
+  console.log({ productInServer: product });
 
   // nuevo objeto que usa la funcion convert para serializar(convertir a string sus propiedades(_id,dates))
   const myProduct: ProductProps = product ? db.convertDocToObj(product) : null;
