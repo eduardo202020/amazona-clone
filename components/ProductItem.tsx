@@ -14,12 +14,12 @@ type ProductItemProps = {
 const ProductItem = ({ product, addToCardHandler }: ProductItemProps) => {
   return (
     <div className=" card ">
-      <div className="overflow-hidden">
+      <div className="overflow-hidden  bg-gradient-to-r dark:from-neutral-700 from-neutral-100 via-neutral-400 dark:via-neutral-400 to-neutral-100 dark:to-neutral-700">
         <Link href={`/product/${product.slug}`} className="overflow-hidden">
           <img
             src={product.image}
             alt={product.name}
-            className="hover:scale-150 transition duration-500 rounded shadow object-cover h-64 w-full"
+            className=" hover:scale-125 transition duration-500 rounded shadow h-64 w-full object-scale-down"
           />
         </Link>
       </div>
@@ -30,7 +30,18 @@ const ProductItem = ({ product, addToCardHandler }: ProductItemProps) => {
         </Link>
         <Rating rating={product.rating} />
         <p className="mb-2 ">{product.brand}</p>
-        <p>${product.price}</p>
+        <div className="flex justify-between my-2 items-center w-5/6">
+          <p>${product.price}</p>
+          {/*//@ts-ignore*/}
+          <Link
+            //@ts-ignore
+            href={`/seller/${product.seller._id}`}
+            className="font-semibold text-xl cursor-pointer hover:underline hover:scale-110 transition-all duration-200 drop-shadow-md hover:text-sky-300"
+          >
+            {/*//@ts-ignore*/}
+            {product.seller?.seller?.name}
+          </Link>
+        </div>
         <button
           className="primary-button"
           type="button"

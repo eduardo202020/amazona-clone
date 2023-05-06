@@ -54,7 +54,7 @@ export default function Home({
         ))}
       </Carousel>
       <h2 className="h2 my-4">Latest Products</h2>
-      <div className=" grid grid-col1 gap-4 md:grid-cols-3 lg:grid-cols-4">
+      <div className=" grid grid-col-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
         {products.map((product: ProductProps) => (
           <ProductItem
             addToCardHandler={addToCardHandler}
@@ -69,12 +69,14 @@ export default function Home({
 
 export const getServerSideProps: GetServerSideProps = async () => {
   await db.connect();
-  const products: ProductProps[] = await Product.find().lean();
-
   const featuredProducts = await Product.find({ isFeatured: true }).lean();
 
+  const myProducts2: ProductProps[] = await Product.find()
+    .populate("seller", " -createdAt -updatedAt ")
+    .lean();
+
   // nuevo objeto que usa la funcion convert para serializar(convertir a string sus propiedades(_id,dates)s)
-  const myProducts: ProductProps[] = products.map(db.convertDocToObj);
+  const myProducts: ProductProps[] = myProducts2.map(db.convertDocToObj2);
   await db.disconnect();
   return {
     props: {
