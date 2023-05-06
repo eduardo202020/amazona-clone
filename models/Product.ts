@@ -7,6 +7,7 @@ export interface ProductProps {
   name: string;
   slug: string;
   category: string;
+  seller: { type: Schema.Types.ObjectId };
   image: string;
   price: number;
   brand: string;
@@ -25,6 +26,7 @@ const productShema = new Schema<ProductProps>(
   {
     name: { type: String, required: true },
     slug: { type: String, required: true, unique: true },
+    seller: { type: Schema.Types.ObjectId, unique: false, ref: "User" },
     category: { type: String, required: true },
     image: { type: String, required: true },
     price: { type: Number, required: true },
