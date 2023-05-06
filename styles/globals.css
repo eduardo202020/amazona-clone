@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .card {
-  @apply mb-5 block rounded-lg border-gray-200 shadow-md hover:shadow-xl transition-all duration-300  dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700;
+  @apply mb-5 block rounded-xl overflow-hidden border-gray-200  dark:shadow-lg dark:shadow-neutral-600 shadow-neutral-300 shadow-lg hover:shadow-xl hover:shadow-neutral-300 transition-all duration-300  dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 dark:hover:shadow-neutral-400 dark:hover:shadow-xl;
 }
 
 .primary-button {
