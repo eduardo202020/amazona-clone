@@ -36,7 +36,6 @@ const putHandler = async (
   id: string
 ) => {
   await db.connect();
-  console.log({ body: req.body });
 
   const product = await Product.findById(req.query.id);
   if (product) {
