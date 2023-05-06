@@ -35,13 +35,10 @@ export default function AdminOrderScreen() {
   const router = useRouter();
 
   useEffect(() => {
-    // if (!user) {
-    //   return;
-    // }
     if (!user?.user.isSeller) {
       router.push("/");
     }
-  }, [router, user?.user.isAdmin, user]);
+  }, [router, user?.user.isSeller]);
 
   useEffect(() => {
     const fetchData = async () => {
